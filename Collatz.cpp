@@ -13,6 +13,8 @@
 
 #include "Collatz.h"
 
+using namespace std;
+
 // ------------
 // collatz_read
 // ------------
@@ -34,6 +36,7 @@ int collatz_eval (int i, int j) {
     assert(i > 0);
     assert(j > 0);
     // <your code>
+	cout << "setting v = 1";
     int v = 1;
     assert(v > 0);
     return v;}
