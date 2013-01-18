@@ -1,0 +1,38 @@
+
+<!-- saved from url=(0083)https://raw.github.com/gpdowning/cs371p/master/projects/collatz/TestCollatz.c++.out -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css"></style></head><body><div id="StayFocusd-infobar" style="display:none;"><img src="chrome-extension://laankejkbhbdhmipfmgcngdelahlfoji/img/eye_19x19_red.png"><span id="StayFocusd-infobar-msg"></span><span id="StayFocusd-infobar-links"><a href="https://raw.github.com/gpdowning/cs371p/master/projects/collatz/TestCollatz.c++.out#" id="StayFocusd-infobar-never-show">hide forever</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://raw.github.com/gpdowning/cs371p/master/projects/collatz/TestCollatz.c++.out#" id="StayFocusd-infobar-hide">hide once</a></span></div><pre style="word-wrap: break-word; white-space: pre-wrap;">TestCollatz.c++
+..F.F.F.F..F
+
+
+!!!FAILURES!!!
+Test Results:
+Run:  7   Failures: 5   Errors: 0
+
+
+1) test: TestCollatz::test_eval_1 (F) line: 57 TestCollatz.c++
+assertion failed
+- Expression: v == 20
+
+
+2) test: TestCollatz::test_eval_2 (F) line: 61 TestCollatz.c++
+assertion failed
+- Expression: v == 125
+
+
+3) test: TestCollatz::test_eval_3 (F) line: 65 TestCollatz.c++
+assertion failed
+- Expression: v == 89
+
+
+4) test: TestCollatz::test_eval_4 (F) line: 69 TestCollatz.c++
+assertion failed
+- Expression: v == 174
+
+
+5) test: TestCollatz::test_solve (F) line: 88 TestCollatz.c++
+assertion failed
+- Expression: w.str() == "1 10 20\n100 200 125\n201 210 89\n900 1000 174\n"
+
+
+Done.
+</pre><div id="sbi_camera_button" class="sbi_search" style="left: 0px; top: 0px; position: absolute; width: 29px; height: 27px; border: none; margin: 0px; padding: 0px; z-index: 2147483647; display: none;"></div></body></html>
