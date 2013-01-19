@@ -38,25 +38,26 @@ int collatz_eval (int i, int j) {
     //BEGIN MY CODE
     int v = 1;
 	int currentLength = 0;
-	if (i < j) {
+	int current;
+	if (j < i) {
 		//switch the numbers around for an ascending range
 		int swap = j;
 		j = i;
 		i = swap;
 	}
-	int currentJ = j;
 	assert(i <= j);
-	cout << "finding longest cycle between " + i << " and " + j << endl; 
-	while (j <= i) {
-		cout << "finding cycle for " + j << endl;
+	cout << "finding longest cycle between " << i << " and " << j << endl; 
+	while (i <= j) {
+		cout << "finding cycle for " << i << endl;
+		current = i;
 		while(1) {
-			if (currentJ == 1) break;
-			if (currentJ%2) currentJ = 3*(currentJ)+1;
-			else currentJ = currentJ/2;
+			if (current == 1) break;
+			if (current%2) current = 3*(current)+1;
+			else current = current/2;
 			currentLength++;
 		}
 		if (currentLength > v) v = currentLength;
-		j++;
+		i++;
 	}
 	//END MY CODE
     assert(v > 0);
