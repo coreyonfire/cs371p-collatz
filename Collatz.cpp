@@ -35,10 +35,31 @@ bool collatz_read (std::istream& r, int& i, int& j) {
 int collatz_eval (int i, int j) {
     assert(i > 0);
     assert(j > 0);
-    // <your code>
+    //BEGIN MY CODE
     int v = 1;
+	int currentLength = 0;
+	if (j < i) {
+		//switch the numbers around for an ascending range
+		int swap = j;
+		j = i;
+		i = swap;
+	}
+	int currentJ = j;
+	assert(i <= j);
+	while (j <= i) {
+		while(1) {
+			if (currentJ == 1) break;
+			if (currentJ%2) currentJ = 3*(currentJ)+1;
+			else currentJ = currentJ/2;
+			currentLength++;
+		}
+		if (currentLength > v) v = currentLength;
+		j++;
+	}
+	//END MY CODE
     assert(v > 0);
-    return v;}
+    return v;
+}
 
 // -------------
 // collatz_print
