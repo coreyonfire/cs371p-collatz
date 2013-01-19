@@ -15,6 +15,10 @@
 
 using namespace std;
 
+
+//turn on debug messages
+bool DEBUG = 0;
+
 // ------------
 // collatz_read
 // ------------
@@ -46,17 +50,19 @@ int collatz_eval (int i, int j) {
 		i = swap;
 	}
 	assert(i <= j);
-	cout << "finding longest cycle between " << i << " and " << j << endl; 
+	if (DEBUG) cout << "finding longest cycle between " << i << " and " << j << endl; 
 	while (i <= j) {
-		cout << "finding cycle for " << i << endl;
+		if (DEBUG) cout << "finding cycle for " << i << endl;
 		current = i;
 		while(1) {
+			assert (current > 0);
 			if (current == 1) break;
 			if (current%2) current = 3*(current)+1;
 			else current = current/2;
 			currentLength++;
 		}
 		if (currentLength > v) v = currentLength;
+		currentLength = 1;
 		i++;
 	}
 	//END MY CODE
