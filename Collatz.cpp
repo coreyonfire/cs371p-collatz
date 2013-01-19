@@ -38,7 +38,7 @@ int collatz_eval (int i, int j) {
     //BEGIN MY CODE
     int v = 1;
 	int currentLength = 0;
-	if (j < i) {
+	if (i < j) {
 		//switch the numbers around for an ascending range
 		int swap = j;
 		j = i;
@@ -46,7 +46,9 @@ int collatz_eval (int i, int j) {
 	}
 	int currentJ = j;
 	assert(i <= j);
+	cout << "finding longest cycle between " + i << " and " + j << endl; 
 	while (j <= i) {
+		cout << "finding cycle for " + j << endl;
 		while(1) {
 			if (currentJ == 1) break;
 			if (currentJ%2) currentJ = 3*(currentJ)+1;
