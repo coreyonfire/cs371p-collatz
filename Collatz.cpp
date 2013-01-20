@@ -17,7 +17,7 @@ using namespace std;
 
 
 //turn on debug messages
-bool DEBUG = 1;
+bool DEBUG = 0;
 
 // ------------
 // collatz_read
@@ -58,7 +58,7 @@ int collatz_eval (int i, int j) {
 		while(1) {
 			assert (current > 0);
 			if (current == 1) break;
-			cout << current << ", currentLength is " << currentLength << endl;
+			if (DEBUG) cout << current << ", currentLength is " << currentLength << endl;
 			if (cycleMap[current] != NULL) {
 				if (DEBUG) cout << "found a previous cycle for " << i << ", adding " << cycleMap[current] << endl;
 				currentLength += cycleMap[current] - 1;
