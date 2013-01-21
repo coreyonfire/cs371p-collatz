@@ -10,7 +10,7 @@
 
 #include <cassert>  // assert
 #include <iostream> // endl, istream, ostream
-#include <unordered_map> //unordered_map
+#include <map> //map
 #include "Collatz.h"
 
 using namespace std;
@@ -43,7 +43,7 @@ int collatz_eval (int i, int j) {
     int v = 1;
 	int currentLength = 1;
 	int current;
-	unordered_map<int, int> cycleMap;
+	map<int, int> cycleMap;
 	if (j < i) {
 		//switch the numbers around for an ascending range
 		int swap = j;
@@ -59,7 +59,7 @@ int collatz_eval (int i, int j) {
 			assert (current > 0);
 			if (current == 1) break;
 			if (DEBUG) cout << current << ", currentLength is " << currentLength << endl;
-			if (cycleMap[current] != NULL) {
+			if (cycleMap[current] != 0) {
 				if (DEBUG) cout << "found a previous cycle for " << i << ", adding " << cycleMap[current] << endl;
 				currentLength += cycleMap[current] - 1;
 				current = 1;
