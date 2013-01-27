@@ -1,0 +1,13 @@
+8615071 - Modified the while logic.
+419e4b7 - Update Collatz.cpp
+3ff382c - Turned off debug, added more messages.
+904f641 - Implemented map. Works
+849ce92 - Works. Fundamental calculations correct, now look to add speed.
+e8d1556 - Modified the logic. Still incorrect though, filing issue.
+5d779d8 - Added debug messages, fixed wrong assertions...again.
+10c9767 - Fixed some wrong assertions.
+efc5bc6 - Removed cout test message.
+59b648a - Added VS files for project.
+b9003d6 - Added rest of files.
+3b49c76 - Edited Readme
+89a8da9 - Initial Commit

@@ -24,18 +24,35 @@
  * @param j an int by reference
  * @return true if that succeeds, false otherwise
  */
-bool collatz_read (std::istream&, int&, int&);
+bool collatz_read (std::istream& r, int& i, int& j);
 
 // ------------
 // collatz_eval
 // ------------
 
 /**
+ * Evaluates
  * @param i the beginning of the range, inclusive
  * @param j the end       of the range, inclusive
  * @return the max cycle length in the range [i, j]
  */
-int collatz_eval (int, int);
+int collatz_eval (int i, int j);
+
+/**
+ * Computes the value iteratively
+ * @param i the beginning of the range, inclusive
+ * @param j the end       of the range, inclusive
+ * @return the max cycle length in the range [i, j]
+ */
+int collatz_eval_recursive(int i, int j);
+
+/**
+ * Computes the value iteratively
+ * @param i the beginning of the range, inclusive
+ * @param j the end       of the range, inclusive
+ * @return the max cycle length in the range [i, j]
+ */
+int collatz_eval_iterative(int i, int j);
 
 // -------------
 // collatz_print
@@ -48,7 +65,7 @@ int collatz_eval (int, int);
  * @param j the end       of the range, inclusive
  * @param v the max cycle length
  */
-void collatz_print (std::ostream&, int, int, int);
+void collatz_print (std::ostream& w, int i, int j, int v);
 
 // -------------
 // collatz_solve
@@ -59,6 +76,6 @@ void collatz_print (std::ostream&, int, int, int);
  * @param r a std::istream
  * @param w a std::ostream
  */
-void collatz_solve (std::istream&, std::ostream&);
+void collatz_solve (std::istream& r, std::ostream& w);
 
 #endif // Collatz_h
