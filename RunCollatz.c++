@@ -45,5 +45,8 @@ To document the program:
 int main () {
     using namespace std;
     ios_base::sync_with_stdio(false); // turn off synchronization with C I/O
-    collatz_solve(cin, cout);
+    try {collatz_solve(cin, cout);}
+	catch (exception &e) {
+		cout << "error: " << e.what() << endl;
+	}
     return 0;}
