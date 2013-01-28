@@ -8,8 +8,8 @@ First Name: Corey
 Last Name: Besmer
 EID: cb33364
 E-mail: cbesmer@utexas.edu
-Estimated number of hours:
-Actual    number of hours:
+Estimated number of hours: 4
+Actual    number of hours: 6
 
 Turnin CS Username: coreyonf
 GitHub ID: coreyonfire

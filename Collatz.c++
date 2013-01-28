@@ -25,7 +25,11 @@ using namespace std;
 bool DEBUG = 0;
 //select recursive or iterative mode
 bool RECURSIVE = 0;
-static map<unsigned, unsigned> cycleMap;
+
+//vector declarations
+static vector<int> cycleMap(1, 0);
+static map<int, int> cycleMapOld;
+
 // ------------
 // collatz_read
 // ------------
@@ -42,13 +46,13 @@ bool collatz_read (std::istream& r, int& i, int& j) {
 int collatz_recursive_helper(int current, int length) {
 	if (DEBUG) cout << "current: " << current << endl;
 	if (current != 1) {
-		int t = cycleMap[current];
-		if (t != 0) {
-			length += t - 1;
-			if (DEBUG) cout << "found previous entry for " << current << ": " << t << ", returning " << length << endl;
-			return length;
+		try {
+			int t = cycleMap.at(current);
+			if (t == 0) throw;
 		}
-		else {
+		catch (exception& e) {
+			cycleMap.resize(current+1, 0);
+			if (DEBUG) cout << "No previous entry for " << current << endl;
 			bool skipped = 0;
 			if (current % 2) {
 				current = (3 * (current) + 1) / 2;
@@ -59,6 +63,9 @@ int collatz_recursive_helper(int current, int length) {
 			cycleMap[current] = length;
 			return ++length + skipped;
 		}
+		length += t - 1;
+		if (DEBUG) cout << "found previous entry for " << current << ": " << t << ", returning " << length << endl;
+		return length;
 	}
 	else return 1;
 }
@@ -86,9 +93,9 @@ int collatz_eval_iterative(int i, int j) {
 		while(current != 1) {
 			assert (current > 0);
 			if (DEBUG) cout << current << ", currentLength is " << currentLength << endl;
-			if (cycleMap[current] != 0) {
-				if (DEBUG) cout << "found a previous cycle for " << i << ", adding " << cycleMap[current] << endl;
-				currentLength += cycleMap[current] - 1;
+			if (cycleMapOld[current] != 0) {
+				if (DEBUG) cout << "found a previous cycle for " << i << ", adding " << cycleMapOld[current] << endl;
+				currentLength += cycleMapOld[current] - 1;
 				current = 1;
 				break;
 			}
@@ -97,7 +104,7 @@ int collatz_eval_iterative(int i, int j) {
 			currentLength++;
 		}
 		if (DEBUG) cout << "cycle length for " << i << " is " << currentLength << endl;
-		cycleMap[i] = currentLength;
+		cycleMapOld[i] = currentLength;
 		if (currentLength > max) max = currentLength;
 		currentLength = 1;
 		i++;
@@ -121,6 +128,7 @@ int collatz_eval (int i, int j) {
 		i = swap;
 	}
 	assert(i <= j);
+	if (i < j/2) i = j/2;
 	if (DEBUG) cout << "finding longest cycle between " << i << " and " << j << endl; 
 	//RECURSIVE VERSION
 	if (RECURSIVE) v = collatz_eval_recursive(i, j);
