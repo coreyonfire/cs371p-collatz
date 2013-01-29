@@ -25,7 +25,7 @@ using namespace std;
 //turn on debug messages
 bool DEBUG = 0;
 //select recursive or iterative mode
-bool RECURSIVE = 0;
+bool RECURSIVE = 1;
 
 //vector declarations
 static vector<unsigned> cycleMap(1, 0);
@@ -45,20 +45,16 @@ bool collatz_read (std::istream& r, int& i, int& j) {
     return true;}
 
 int collatz_recursive_helper(int current, int length) {
-	if (DEBUG) cout << "current: " << current << endl;
 	if (current != 1) {
 		int t = 0;
-		try {
-			t = cycleMap.at(current);
-			if (t == 0) {
-				cycleMap.at(-1);
-			}
+		assert(current > 0);
+		if (current < cycleMap.size()) t = cycleMap[current];
+		else t = greaterMap[current];
+		if (t != 0) {
+			length += t - 1;
+			return length;
 		}
-		catch (...) {
-			if (current + 1 > cycleMap.size() && current + 1 < cycleMap.max_size()) {
-				cycleMap.resize(current+1, 0);
-			}
-			if (DEBUG) cout << "No previous entry for " << current << endl;
+		else {
 			bool skipped = 0;
 			if (current % 2) {
 				current = (3 * (current) + 1) / 2;
@@ -67,11 +63,9 @@ int collatz_recursive_helper(int current, int length) {
 			else current = current / 2;
 			length = collatz_recursive_helper(current, length);
 			if (current < cycleMap.size()) cycleMap[current] = length;
+			else greaterMap[current] = length;
 			return ++length + skipped;
 		}
-		length += t - 1;
-		if (DEBUG) cout << "found previous entry for " << current << ": " << t << ", returning " << length << endl;
-		return length;
 	}
 	else return 1;
 }

@@ -4,23 +4,7 @@
 // Glenn P. Downing
 // -------------------------------
 
-/*
-To run the program:
-    % g++ -pedantic -std=c++0x -Wall Collatz.c++ RunCollatz.c++ -o RunCollatz
-    % valgrind RunCollatz < RunCollatz.in > RunCollatz.out
 
-To configure Doxygen:
-    % doxygen -g
-That creates the file "Doxyfile".
-Make the following edits:
-    EXTRACT_ALL            = YES
-    EXTRACT_PRIVATE        = YES
-    EXTRACT_STATIC         = YES
-    GENERATE_LATEX         = NO
-
-To document the program:
-    % doxygen Doxyfile
-*/
 
 // -------
 // defines
@@ -65,20 +49,16 @@ bool collatz_read (std::istream& r, int& i, int& j) {
     return true;}
 
 int collatz_recursive_helper(int current, int length) {
-	if (DEBUG) cout << "current: " << current << endl;
 	if (current != 1) {
 		int t = 0;
-		try {
-			t = cycleMap.at(current);
-			if (t == 0) {
-				cycleMap.at(-1);
-			}
+		assert(current > 0);
+		if (current < cycleMap.size()) t = cycleMap[current];
+		else t = greaterMap[current];
+		if (t != 0) {
+			length += t - 1;
+			return length;
 		}
-		catch (...) {
-			if (current + 1 > cycleMap.size() && current + 1 < cycleMap.max_size()) {
-				cycleMap.resize(current+1, 0);
-			}
-			if (DEBUG) cout << "No previous entry for " << current << endl;
+		else {
 			bool skipped = 0;
 			if (current % 2) {
 				current = (3 * (current) + 1) / 2;
@@ -87,11 +67,9 @@ int collatz_recursive_helper(int current, int length) {
 			else current = current / 2;
 			length = collatz_recursive_helper(current, length);
 			if (current < cycleMap.size()) cycleMap[current] = length;
+			else greaterMap[current] = length;
 			return ++length + skipped;
 		}
-		length += t - 1;
-		if (DEBUG) cout << "found previous entry for " << current << ": " << t << ", returning " << length << endl;
-		return length;
 	}
 	else return 1;
 }
@@ -100,9 +78,7 @@ int collatz_eval_recursive(int i, int j) {
 	int max = 0;
 	int temp;
 	while (i <=j) {
-		if (DEBUG) cout << "finding cycle for " << i << endl;
 		temp = collatz_recursive_helper(i, 1);
-		if (DEBUG) cout << "length is " << temp << endl;
 		if (temp > max) max = temp;
 		i++;
 	}
@@ -115,10 +91,8 @@ int collatz_eval_iterative(int i, int j) {
 	int max = 0, t = 0;
 	cycleMap.resize(j+1, 0);
 	while (i <= j) {
-		if (DEBUG) cout << "finding cycle for " << i << endl;
 		current = i;
 		while(current != 1) {
-			if (DEBUG) cout << current << ", currentLength is " << currentLength << endl;
 			//get value from map or vector
 			assert (current > 0);
 			if (current < j) {
@@ -141,7 +115,6 @@ int collatz_eval_iterative(int i, int j) {
 			}
 			
 		}
-		if (DEBUG) cout << "cycle length for " << i << " is " << currentLength << endl;
 		cycleMap[i] = currentLength;
 		if (currentLength > max) max = currentLength;
 		currentLength = 1;
@@ -167,7 +140,6 @@ int collatz_eval (int i, int j) {
 	}
 	assert(i <= j);
 	if (i < j/2) i = j/2;
-	if (DEBUG) cout << "finding longest cycle between " << i << " and " << j << endl; 
 	//RECURSIVE VERSION
 	if (RECURSIVE) v = collatz_eval_recursive(i, j);
 
@@ -216,3 +188,5 @@ int main () {
     ios_base::sync_with_stdio(false); // turn off synchronization with C I/O
     collatz_solve(cin, cout);
     return 0;}
+
+
