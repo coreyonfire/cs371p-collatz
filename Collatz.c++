@@ -44,7 +44,7 @@ bool collatz_read (std::istream& r, int& i, int& j) {
     assert(j > 0);
     return true;}
 
-int collatz_recursive_helper(int current, int length) {
+int collatz_recursive_helper(unsigned current, int length) {
 	if (current != 1) {
 		int t = 0;
 		assert(current > 0);
@@ -73,10 +73,9 @@ int collatz_recursive_helper(int current, int length) {
 int collatz_eval_recursive(int i, int j) {
 	int max = 0;
 	int temp;
+	cycleMap.resize(j*5, 0);
 	while (i <=j) {
-		if (DEBUG) cout << "finding cycle for " << i << endl;
 		temp = collatz_recursive_helper(i, 1);
-		if (DEBUG) cout << "length is " << temp << endl;
 		if (temp > max) max = temp;
 		i++;
 	}
@@ -85,17 +84,15 @@ int collatz_eval_recursive(int i, int j) {
 
 int collatz_eval_iterative(int i, int j) {
 	int currentLength = 1;
-	int current;
+	unsigned current;
 	int max = 0, t = 0;
-	cycleMap.resize(j+1, 0);
+	cycleMap.resize(j*5, 0);
 	while (i <= j) {
-		if (DEBUG) cout << "finding cycle for " << i << endl;
 		current = i;
 		while(current != 1) {
-			if (DEBUG) cout << current << ", currentLength is " << currentLength << endl;
 			//get value from map or vector
 			assert (current > 0);
-			if (current < j) {
+			if (current < cycleMap.size()) {
 					t = cycleMap.at(current);
 				}	
 			else t = greaterMap[current];
@@ -115,7 +112,6 @@ int collatz_eval_iterative(int i, int j) {
 			}
 			
 		}
-		if (DEBUG) cout << "cycle length for " << i << " is " << currentLength << endl;
 		cycleMap[i] = currentLength;
 		if (currentLength > max) max = currentLength;
 		currentLength = 1;
@@ -133,20 +129,10 @@ int collatz_eval (int i, int j) {
     assert(j > 0);
     //BEGIN MY CODE
     int v = 1;
-	if (j < i) {
-		//switch the numbers around for an ascending range
-		int swap = j;
-		j = i;
-		i = swap;
-	}
-	assert(i <= j);
 	if (i < j/2) i = j/2;
-	if (DEBUG) cout << "finding longest cycle between " << i << " and " << j << endl; 
 	//RECURSIVE VERSION
-	if (RECURSIVE) v = collatz_eval_recursive(i, j);
-
-	//ITERATIVE VERSION
-	else v = collatz_eval_iterative(i, j);
+	if (i < j) v = collatz_eval_iterative(i, j);
+	else v = collatz_eval_iterative (j, i);
 	//END MY CODE
     assert(v > 0);
     return v;
