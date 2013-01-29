@@ -49,7 +49,7 @@ bool RECURSIVE = 0;
 
 //vector declarations
 static vector<unsigned> cycleMap(1, 0);
-static map<int, int> cycleMapOld;
+static map<int, int> greaterMap;
 
 // ------------
 // collatz_read
@@ -113,33 +113,32 @@ int collatz_eval_iterative(int i, int j) {
 	int currentLength = 1;
 	int current;
 	int max = 0, t = 0;
+	cycleMap.resize(j+1, 0);
 	while (i <= j) {
 		if (DEBUG) cout << "finding cycle for " << i << endl;
 		current = i;
 		while(current != 1) {
 			if (DEBUG) cout << current << ", currentLength is " << currentLength << endl;
-			
-			try {
-				t = cycleMap.at(current);
-				if (t == 0) {
-					cycleMap.at(-1);
-				}
-			}	
-			catch (...) {
-				if (current + 1 > cycleMap.size() && current + 1 < cycleMap.max_size()) {
-					cycleMap.resize(current+1, 0);
-				}
-			
+			//get value from map or vector
+			assert (current > 0);
+			if (current < j) {
+					t = cycleMap.at(current);
+				}	
+			else t = greaterMap[current];
+			if (t == 0) {
+				//value not found, it's not in the cache!
 				if (current%2) {
 					current = (3*(current)+1)/2;
 					currentLength++;
 				}
 				else current = current/2;
 				currentLength++;
-				continue;
 			}
-			currentLength += t - 1;
-			break;
+			else {
+				//it was in the cache, just send that back
+				currentLength += t - 1;
+				break;
+			}
 			
 		}
 		if (DEBUG) cout << "cycle length for " << i << " is " << currentLength << endl;
